@@ -50,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     @Override//绑定位置
     public void onBindViewHolder(MyViewHolder holder, int position) {
-       holder.text.setText(list.get(position));
+       holder.text.setText(list.get(position));//把文本传入holder
     }
 
     @Override
