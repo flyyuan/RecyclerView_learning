@@ -210,7 +210,7 @@ public class MyItemAnimator extends SimpleItemAnimator {
     @Override
     public boolean animateAdd(final ViewHolder holder) {
         resetAnimation(holder);
-        ViewCompat.setAlpha(holder.itemView, 0);
+        ViewCompat.setTranslationX(holder.itemView, -holder.itemView.getWidth());
         mPendingAdditions.add(holder);
         return true;
     }
@@ -219,7 +219,7 @@ public class MyItemAnimator extends SimpleItemAnimator {
         final View view = holder.itemView;
         final ViewPropertyAnimatorCompat animation = ViewCompat.animate(view);
         mAddAnimations.add(holder);
-        animation.alpha(1).setDuration(getAddDuration()).
+        animation.translationX(0).setDuration(getAddDuration()).
                 setListener(new VpaListenerAdapter() {
                     @Override
                     public void onAnimationStart(View view) {
@@ -227,7 +227,7 @@ public class MyItemAnimator extends SimpleItemAnimator {
                     }
                     @Override
                     public void onAnimationCancel(View view) {
-                        ViewCompat.setAlpha(view, 1);
+                        ViewCompat.setTranslationX(view, 1);
                     }
 
                     @Override
@@ -277,6 +277,7 @@ public class MyItemAnimator extends SimpleItemAnimator {
         // vpas are canceled (and can't end them. why?)
         // need listener functionality in VPACompat for this. Ick.
         final ViewPropertyAnimatorCompat animation = ViewCompat.animate(view);
+        animation.rotationXBy(360);//旋转360度
         mMoveAnimations.add(holder);
         animation.setDuration(getMoveDuration()).setListener(new VpaListenerAdapter() {
             @Override
@@ -325,7 +326,7 @@ public class MyItemAnimator extends SimpleItemAnimator {
             resetAnimation(newHolder);
             ViewCompat.setTranslationX(newHolder.itemView, -deltaX);
             ViewCompat.setTranslationY(newHolder.itemView, -deltaY);
-            ViewCompat.setAlpha(newHolder.itemView, 0);
+            ViewCompat.setTranslationX(newHolder.itemView, -newHolder.itemView.getWidth());
         }
         mPendingChanges.add(new ChangeInfo(oldHolder, newHolder, fromX, fromY, toX, toY));
         return true;
@@ -342,7 +343,7 @@ public class MyItemAnimator extends SimpleItemAnimator {
             mChangeAnimations.add(changeInfo.oldHolder);
             oldViewAnim.translationX(changeInfo.toX - changeInfo.fromX);
             oldViewAnim.translationY(changeInfo.toY - changeInfo.fromY);
-            oldViewAnim.alpha(0).setListener(new VpaListenerAdapter() {
+            oldViewAnim.translationX(view.getWidth()).setListener(new VpaListenerAdapter() {
                 @Override
                 public void onAnimationStart(View view) {
                     dispatchChangeStarting(changeInfo.oldHolder, true);

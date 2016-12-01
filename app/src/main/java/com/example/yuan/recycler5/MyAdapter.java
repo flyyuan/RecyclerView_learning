@@ -73,6 +73,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         //notifyDataSetChanged();
         notifyItemRemoved(position);//notifyItemRemoved的删除带有动画
     }
+    public void add(int position,String data){
+        list.add(position,data);
+        notifyItemInserted(position);
+    }
+    public void change(int position,String date){
+        list.remove(position);
+        list.add(position,date);
+       notifyItemChanged(position);
+    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView text;

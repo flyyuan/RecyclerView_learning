@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyViewH
         });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL);
         MyItemAnimator animator = new MyItemAnimator();//当不设置动画系统的时候，动画系统会使用默认的动画
-        animator.setRemoveDuration(3000);//设置删除动画延迟时间
-        recycler.setLayoutManager(gridLayoutManager);//设置布局
+        animator.setSupportsChangeAnimations(true);//设置是否支持动画
+        animator.setMoveDuration(   3000);//设置删除动画延迟时间
+        recycler.setLayoutManager(linearLayoutManager);//设置布局
         recycler.setItemAnimator(animator);
         recycler.setAdapter(adapter);
         adapter.setOnChildClickListener(this);
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyViewH
     @Override//调用onChildClick接口
     public void onChildClick(RecyclerView parent, View view, int position, String data) {
         Toast.makeText(this,data,Toast.LENGTH_SHORT).show();
-        adapter.remove(position);
+        //adapter.remove(position);
+        //adapter.add(position,"新增数据");
+        adapter.change(position,"新增数据");
     }
 }
