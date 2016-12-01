@@ -1,5 +1,10 @@
 package com.example.yuan.recycler5;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -53,6 +58,27 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyViewH
         recycler.setLayoutManager(linearLayoutManager);//设置布局
         recycler.setItemAnimator(animator);
         recycler.setAdapter(adapter);
+        recycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                super.onDrawOver(c, parent, state);//可以再控件之上绘制东西
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                c.drawBitmap(bitmap ,400 , 400 , null);
+            }
+
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                super.onDraw(c, parent, state);
+                c.drawColor(Color.BLACK);//绘制前景，甚至可以加一个动画
+            }
+
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                int position = parent.getChildAdapterPosition(view);
+                outRect.set(0 , 5 * position ,0 , 5 * position);//间距的宽高，这样可以灵活地去设定间距
+            }
+        });
         adapter.setOnChildClickListener(this);
     }
 
